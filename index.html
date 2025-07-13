@@ -7,6 +7,15 @@
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DRB947YS5"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-9DRB947YS5');
+    </script>
 </head>
 <body>
     <div class="container">
@@ -60,8 +69,63 @@
 
             <div id="backup-controls"></div>
         </div>
+        <div class="file-input-section">
+            <div class="center">
+                <label for="file-input" class="btn btn-file">
+                    <i class="fas fa-file-upload"></i> Importar dados
+                </label>
+                <input type="file" id="file-input" accept=".pdf" style="display: none">
+            </div>
+            <div id="file-message" class="file-message"></div>
+        </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js"></script>
+    <script>
+        // Set the worker source for PDF.js
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.worker.min.js';
+        
+        // Manipula o evento de seleção de arquivo
+        document.getElementById('file-input').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            // Usa PDF.js para extrair texto do PDF
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+            const arrayBuffer = e.target.result;
+            
+            pdfjsLib.getDocument(arrayBuffer).promise.then(function(pdf) {
+                let textContent = '';
+                const numPages = pdf.numPages;
+                let pagesProcessed = 0;
+                
+                for (let pageNum = 1; pageNum <= numPages; pageNum++) {
+                pdf.getPage(pageNum).then(function(page) {
+                    page.getTextContent().then(function(textContentObj) {
+                    const pageText = textContentObj.items.map(item => item.str).join(' ');
+                    textContent += pageText + '\n';
+                    pagesProcessed++;
+                    
+                    if (pagesProcessed === numPages) {
+                        // Todas as páginas foram processadas
+                        parseAcademicData(textContent);
+                    }
+                    });
+                });
+                }
+            }).catch(function(error) {
+                console.log('Erro ao processar o PDF: ' + error.message);
+            });
+            };
+            
+            reader.readAsArrayBuffer(file);
+        });
 
+        function parseAcademicData(text) {
+            console.log(text)
+        }
+    </script>
     <script src="script.js"></script>
 </body>
 </html>
