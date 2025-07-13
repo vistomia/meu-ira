@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu IRA - Controle de Notas</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-content">
+                <h1>Meu IRA</h1>
+            </div>
+            <a target="_blank" href="https://github.com/vistomia/meu-ira?tab=readme-ov-file#doe" class="donate">
+                me doe um café
+            </a>
+            <a href="https://github.com/vistomia" class="github-link" target="_blank" title="GitHub Profile">
+                <i class="fab fa-github" style="color: white"></i>
+            </a>
+            <button class="btn btn-theme-toggle" onclick="toggleLightMode()" id="theme-toggle">
+                <i class="fas fa-sun"></i>
+            </button>
+        </div>
+
+        <div class="content">
+            <div class="warning-section">
+                <div class="warning-title"><i class="fas fa-exclamation-triangle"></i> Importante:</div>
+                <div>• Cadeiras reprovadas por falta devem ser inseridas com nota 0</div>
+                <div>• Use a seção "Cadeiras Trancadas" para disciplinas que foram trancadas</div>
+                <div>• O IRA é calculado considerando o peso do semestre (máximo 6)</div>
+            </div>
+
+            <div id="locked-courses-container" class="locked-courses-section"></div>
+            
+            
+            <div id="semesters-container"></div>
+            <div class="center">
+                <button class="btn btn-semester" onclick="addSemester()"><i class="fas fa-plus"></i> Adicionar Novo Semestre</button>
+            </div>
+            
+            <div id="ira-geral-section" class="ira-geral-section">
+                <div class="ira-geral-form">
+                    <div class="ira-geral-inputs">
+                        <input type="number" id="curso-media" placeholder="Média do Curso (SIGAA Histórico IRA)"/>
+                        <input type="number" id="curso-desvio" placeholder="Desvio Padrão do Curso (SIGAA Histórico IRA)" />
+                    </div>
+                </div>
+                <div class="ira-geral-result">
+                    <h3>IRA Individual</h3>
+                    <div class="ira-value" id="total-ira">0.000</div>
+                </div>
+                <br>
+                <div class="ira-geral-result">
+                    <h3>IRA Geral</h3> 
+                    <div class="ira-value" id="ira-geral-value">0.000</div>
+                </div>
+            </div>
+
+            <div id="backup-controls"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

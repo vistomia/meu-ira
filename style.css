@@ -1,0 +1,535 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    --container-bg: #1e1e1e;
+    --text-color: #e0e0e0;
+    --text-secondary: #b0b0b0;
+    --header-bg: #252525;
+    --section-bg: #2a2a2a;
+    --form-bg: #252525;
+    --subject-bg: #2a2a2a;
+    --border-color: #404040;
+    --warning-bg: #3a3a2a;
+    --warning-border: #5a5a2a;
+    --warning-text: #d4c851;
+    --ira-total-bg: #1a2332;
+    --locked-header-bg: #2a2a2a;
+    --shadow: 0 10px 30px rgba(0,0,0,0.6);
+    --subject-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    --fa-color: #F1F1F1;
+}
+
+[data-theme="light"] {
+    --bg-gradient: linear-gradient(135deg, #4a4e5e 0%, #260d3f 100%);
+    --container-bg: white;
+    --text-color: #333;
+    --text-secondary: #666;
+    --header-bg: linear-gradient(45deg, #2196F3, #21CBF3);
+    --section-bg: #f5f5f5;
+    --form-bg: #f1f1f1;
+    --subject-bg: white;
+    --border-color: #ddd;
+    --warning-bg: #fff3cd;
+    --warning-border: #ffeaa7;
+    --warning-text: #856404;
+    --ira-total-bg: #e3f2fd;
+    --locked-header-bg: #f8f9fa;
+    --shadow: 0 10px 30px rgba(0,0,0,0.3);
+    --subject-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    --fa-color: #000;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--container-bg);
+    min-height: 100vh;
+    margin: 0;
+    transition: all 0.3s ease;
+}
+
+.container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+}
+
+.header {
+    background: var(--header-bg);
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border-bottom: var(--border-color) 1px solid;
+}
+
+.header-content {
+    flex: 1;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.header p {
+    margin: 5px 0 0 0;
+    opacity: 0.9;
+    font-size: 14px;
+}
+
+.btn-theme-toggle {
+    background: none;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.btn-theme-toggle:hover {
+    background: rgba(39, 33, 33, 0.3);
+}
+
+.content {
+    flex: 1;
+    padding: 30px;
+    background: var(--container-bg);
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.warning-section {
+    background: var(--warning-bg);
+    border: 1px solid var(--warning-border);
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    color: var(--warning-text);
+    transition: all 0.3s ease;
+}
+
+.warning-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.locked-courses-section {
+    margin-bottom: 30px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.locked-header {
+    background: var(--locked-header-bg);
+    padding: 15px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.locked-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--text-secondary);
+    transition: all 0.3s ease;
+}
+
+.locked-total {
+    font-size: 16px;
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.semester-section {
+    margin-bottom: 30px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.semester-header {
+    background: var(--section-bg);
+    padding: 15px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.semester-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--text-color);
+    transition: all 0.3s ease;
+}
+
+.semester-ira {
+    font-size: 16px;
+    color: #2196F3;
+    font-weight: bold;
+}
+
+.form-section {
+    padding: 20px;
+    background: var(--form-bg);
+    transition: all 0.3s ease;
+}
+
+.form-group {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr auto;
+    gap: 10px;
+    margin-bottom: 15px;
+    align-items: center;
+}
+
+.locked-form-group {
+    display: grid;
+    grid-template-columns: 2fr 1fr auto;
+    gap: 10px;
+    margin-bottom: 15px;
+    align-items: center;
+}
+
+.locked-form-group input {
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 14px;
+    background: var(--subject-bg);
+    color: var(--text-color);
+    transition: all 0.3s ease;
+}
+
+.form-group input {
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 14px;
+    background: var(--subject-bg);
+    color: var(--text-color);
+    transition: all 0.3s ease;
+}
+
+.btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+.btn-add {
+    background: #4CAF50;
+    color: white;
+}
+
+.btn-add:hover {
+    background: #45a049;
+}
+
+input {
+    -moz-appearance: textfield;
+}
+
+input::-webkit-inner-spin-button,
+  input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+.btn-remove {
+    color: var(--fa-color);
+    background: none;
+    font-size: 1em;
+    padding: 10px;
+    width: 2em;
+    height: 2em;
+}
+
+.btn-remove:hover {
+    color: #333;
+}
+
+.btn-semester {
+    background: #2196F3;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.btn-semester:hover {
+    background: #1976D2;
+}
+
+.subjects-list {
+    padding: 20px;
+    background: var(--container-bg);
+    transition: all 0.3s ease;
+}
+
+.subject-item {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr auto;
+    gap: 15px;
+    padding: 10px;
+    margin-bottom: 10px;
+    background: var(--subject-bg);
+    border-radius: 5px;
+    box-shadow: var(--subject-shadow);
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.locked-item {
+    display: grid;
+    grid-template-columns: 2fr 1fr auto;
+    gap: 15px;
+    padding: 10px;
+    margin-bottom: 10px;
+    background: var(--subject-bg);
+    border-radius: 5px;
+    box-shadow: var(--subject-shadow);
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.subject-name {
+    font-weight: bold;
+    color: var(--text-color);
+    transition: all 0.3s ease;
+}
+
+.subject-hours {
+    color: var(--text-secondary);
+    transition: all 0.3s ease;
+}
+
+.subject-grade {
+    color: #2196F3;
+    font-weight: bold;
+}
+
+.ira-total {
+    text-align: center;
+    padding: 20px;
+    background: var(--ira-total-bg);
+    margin-top: 20px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.ira-geral-section {
+    text-align: center;
+    padding: 20px;
+    background: var(--form-bg);
+    margin-top: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.ira-geral-section h3 {
+    color: var(--text-color);
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+}
+
+.ira-geral-form {
+    margin-bottom: 20px;
+}
+
+.ira-geral-inputs {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+.ira-geral-inputs input {
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 14px;
+    background: var(--subject-bg);
+    color: var(--text-color);
+    transition: all 0.3s ease;
+    min-width: 340px;
+}
+
+.btn-calculate {
+    background: #ff9800;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+.btn-calculate:hover {
+    background: #e68900;
+}
+
+.ira-geral-result {
+    padding: 15px;
+    background: var(--ira-total-bg);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.ira-geral-info {
+    margin-top: 10px;
+    color: var(--text-secondary);
+    font-style: italic;
+    transition: all 0.3s ease;
+}
+
+.ira-value {
+    font-size: 24px;
+    font-weight: bold;
+    color: #1976D2;
+}
+
+/* Backup section styles */
+.backup-section {
+    margin: 20px 0;
+    padding: 20px;
+    background: var(--form-bg);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.backup-section h3 {
+    color: var(--text-color);
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+}
+
+.backup-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.btn-backup, .btn-backup-min, .btn-import, .btn-clear {
+    background: #17a2b8;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none;
+    text-align: center;
+    display: inline-block;
+    transition: all 0.3s;
+}
+
+.btn-backup:hover, .btn-backup-min:hover, .btn-import:hover {
+    background: #21abc0;
+}
+
+.btn-clear {
+    background: #dc3545;
+}
+
+.btn-clear:hover {
+    background: #c82333;
+}
+
+.donate {
+    text-align: center;
+    border-radius: 4px;
+    background-color: var(--text-color);
+    text-underline-position: 90px;
+    padding: 2px 10px;
+    text-decoration: none;
+    margin-right: 15px;
+    font-size: small;
+    font-family: monospace;
+    color: var(--header-bg);
+}
+
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .header-content {
+        text-align: center;
+    }
+    
+    .form-group {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    
+    .locked-form-group,
+    .locked-item {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .donate {
+        margin: 0px;
+    }
+    
+    .backup-buttons {
+        flex-direction: column;
+    }
+
+    .btn-semester {
+        margin: auto;
+        border-radius: 50px;
+    }
+
+    .center {
+        display: flex;
+        justify-content: center;
+    }
+    
+    .content {
+        padding: 20px;
+    }
+    
+    .ira-geral-inputs {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .ira-geral-inputs input {
+        min-width: auto;
+        width: 100%;
+    }
+}
