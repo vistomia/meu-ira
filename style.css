@@ -490,7 +490,7 @@ input::-webkit-inner-spin-button,
         text-align: center;
     }
     
-    .form-group {
+    .form-group, .locked-form-group {
         grid-template-columns: 1fr;
         gap: 10px;
     }
