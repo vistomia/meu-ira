@@ -339,8 +339,8 @@ function renderBackupControls() {
         <div class="backup-section">
             <h3>Backup e Importação</h3>
             <div class="backup-buttons">
-                <button class="btn btn-backup" onclick="exportBackup()">📥 Exportar Backup</button>
-                <label class="btn btn-import" for="import-file">📤 Importar Backup</label>
+                <button class="btn btn-backup" onclick="exportBackup()">📤 Exportar Backup</button>
+                <label class="btn btn-import" for="import-file">📥 Importar Backup</label>
                 <input type="file" id="import-file" accept=".json" style="display: none;" onchange="importBackup(this.files[0])">
                 <button class="btn btn-clear" onclick="clearAllData()"><i class="fas fa-times"></i> Limpar Tudo</button>
             </div>
