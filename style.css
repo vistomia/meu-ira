@@ -494,12 +494,6 @@ input::-webkit-inner-spin-button,
         grid-template-columns: 1fr;
         gap: 10px;
     }
-    
-    .locked-form-group,
-    .locked-item {
-        grid-template-columns: 1fr;
-        gap: 10px;
-    }
 
     .donate {
         margin: 0px;
