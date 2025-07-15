@@ -4,6 +4,7 @@ Uma calculadora de notas para o seu IRA (Índice de Rendimento Acadêmico) da Un
 
 ## Funcionalidades Poggers
 
+- Importar o Histórico Escolar do SIGAA
 - Usando Local Storage você não perde seus dados ao fechar o navegador.
 - Você pode exportar e importar seus dados para manter um backup ou transferir para outro dispositivo.
 
