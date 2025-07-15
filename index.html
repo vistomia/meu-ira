@@ -33,8 +33,12 @@
             </div>
 
 
-            <div class="">
-                <p>Esta é uma nova seção.</p>   
+            <div class="import-courses-section">
+                    <label for="file-input" class="btn btn-file">
+                        <i class="fas fa-file-upload"></i> Importar Histórico Escolar
+                    </label>
+                    <input type="file" id="file-input" accept=".pdf" style="display: none">
+                <div id="file-message" class="file-message"></div>
             </div>
 
             <div id="locked-courses-container" class="locked-courses-section"></div>
@@ -64,13 +68,6 @@
 
             <div id="backup-controls"></div>
         </div>
-            <div class="center">
-                <label for="file-input" class="btn btn-file">
-                    <i class="fas fa-file-upload"></i> Importar dados
-                </label>
-                <input type="file" id="file-input" accept=".pdf" style="display: none">
-            </div>
-            <div id="file-message" class="file-message"></div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js"></script>
     <script src="historico-parser.js"></script>

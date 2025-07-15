@@ -11,6 +11,8 @@
     --text-secondary: #b0b0b0;
     --header-bg: #252525;
     --section-bg: #2a2a2a;
+    --import-bg: #121c3d;
+    --border-bg: #4684a1;
     --form-bg: #252525;
     --subject-bg: #2a2a2a;
     --border-color: #404040;
@@ -168,6 +170,19 @@ body {
     border-radius: 8px;
     overflow: hidden;
     transition: all 0.3s ease;
+}
+
+.import-courses-section {
+    margin-bottom: 30px;
+    background-color: var(--import-bg);
+    border: 1px dashed var(--border-bg);
+    padding: 30px;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    color: var(--text-color);
+    text-align: center;
+    font-size: x-large;
 }
 
 .semester-header {
