@@ -283,16 +283,15 @@ input::-webkit-inner-spin-button,
   }
 
 .btn-remove {
-    color: var(--fa-color);
+    color: var(--text-color);
     background: none;
-    font-size: 1em;
-    padding: 10px;
+    line-height: 5px;
     width: 2em;
     height: 2em;
 }
 
 .btn-remove:hover {
-    color: #333;
+    color: #fff;
 }
 
 .btn-semester {
