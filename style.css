@@ -13,6 +13,7 @@
     --section-bg: #2a2a2a;
     --import-bg: #121c3d;
     --border-bg: #4684a1;
+    --import-text: #dbe6f7;
     --form-bg: #252525;
     --subject-bg: #2a2a2a;
     --border-color: #404040;
@@ -31,11 +32,14 @@
     --container-bg: white;
     --text-color: #333;
     --text-secondary: #666;
+    --import-bg: #dce3f7;
+    --border-bg: #437994;
+    --import-text: #2e4769;
     --header-bg: linear-gradient(45deg, #2196F3, #21CBF3);
     --section-bg: #f5f5f5;
     --form-bg: #f1f1f1;
     --subject-bg: white;
-    --border-color: #ddd;
+    --border-color: #ddd;   
     --warning-bg: #fff3cd;
     --warning-border: #ffeaa7;
     --warning-text: #856404;
@@ -180,7 +184,7 @@ body {
     border-radius: 8px;
     overflow: hidden;
     transition: all 0.3s ease;
-    color: var(--text-color);
+    color: var(--import-text);
     text-align: center;
     font-size: x-large;
 }
@@ -479,6 +483,10 @@ input::-webkit-inner-spin-button,
 
 .btn-clear:hover {
     background: #c82333;
+}
+
+.btn-file {
+    font-size: large;
 }
 
 .donate {
