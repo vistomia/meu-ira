@@ -358,7 +358,7 @@ function renderAll() {
     
     // Update total IRA
     const totalIRA = calculateTotalIRA();
-    document.getElementById('total-ira').textContent = totalIRA.toFixed(3);
+    document.getElementById('total-ira').textContent = totalIRA.toFixed(4);
     
     courseStats.desvio = parseFloat(document.getElementById('curso-desvio').value) || null;
     courseStats.media = parseFloat(document.getElementById('curso-media').value) || null;
