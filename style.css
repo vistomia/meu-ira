@@ -490,11 +490,6 @@ input::-webkit-inner-spin-button,
     background: #c82333;
 }
 
-.btn-star {
-    background-color: #db8b11;
-    color: var(--text-color);
-}
-
 .btn-file {
     font-size: large;
 }
