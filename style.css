@@ -80,7 +80,7 @@ body {
 .header {
     background: var(--header-bg);
     color: white;
-    padding: 20px;
+    padding:20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -88,8 +88,23 @@ body {
     border-bottom: var(--border-color) 1px solid;
 }
 
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.github-link {
+    color: var(--fa-color);
+    text-decoration: none;
+    font-size: 20px;
+    transition: color 0.3s ease;
+}
+
 .header-content {
-    flex: 1;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
 }
 
 .header h1 {
@@ -520,12 +535,16 @@ input::-webkit-inner-spin-button,
     }
 
     .header {
+        flex-direction: column;
         gap: 15px;
         text-align: center;
     }
 
+    .nav-links {
+        gap: 20px;
+    }
+
     .header-content {
-        margin-left: calc(20%);
         text-align: center;
         text-wrap: nowrap;
     }
