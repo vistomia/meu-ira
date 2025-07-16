@@ -337,12 +337,12 @@ function renderBackupControls() {
     
     container.innerHTML = `
         <div class="backup-section">
-            <h3>Backup e Importação</h3>
             <div class="backup-buttons">
                 <button class="btn btn-backup" onclick="exportBackup()">📤 Exportar Backup</button>
                 <label class="btn btn-import" for="import-file">📥 Importar Backup</label>
                 <input type="file" id="import-file" accept=".json" style="display: none;" onchange="importBackup(this.files[0])">
                 <button class="btn btn-clear" onclick="clearAllData()"><i class="fas fa-times"></i> Limpar Tudo</button>
+                <button class="btn btn-star" onclick="window.open('https://github.com/vistomia/meu-ira', '_blank')"><i class="fas fa-star"></i>  Dê uma estrela no GitHub</button>
             </div>
         </div>
     `;
