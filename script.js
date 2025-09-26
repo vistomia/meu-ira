@@ -58,22 +58,26 @@ function addSubject(semesterId) {
     const nameInput = document.getElementById(`subject-name-${semesterId}`);
     const hoursInput = document.getElementById(`subject-hours-${semesterId}`);
     const gradeInput = document.getElementById(`subject-grade-${semesterId}`);
+    const statusInput = document.getElementById(`subject-status-${semesterId}`);
 
     const name = nameInput.value.trim();
     const hours = parseInt(hoursInput.value);
     const grade = parseFloat(gradeInput.value);
+    const status = statusInput.value.trim();
 
     if (name && hours > 0 && grade >= 0 && grade <= 10) {
         semester.subjects.push({
             id: Date.now(),
             name,
             hours,
-            grade
+            grade,
+            status
         });
 
         nameInput.value = '';
         hoursInput.value = '';
         gradeInput.value = '';
+        statusInput.value = '';
 
         renderAll();
     } else {
@@ -84,34 +88,6 @@ function addSubject(semesterId) {
 function removeSubject(semesterId, subjectId) {
     const semester = semesters.find(s => s.id === semesterId);
     semester.subjects = semester.subjects.filter(sub => sub.id !== subjectId);
-    renderAll();
-}
-
-function addLockedCourse() {
-    const nameInput = document.getElementById('locked-name');
-    const hoursInput = document.getElementById('locked-hours');
-
-    const name = nameInput.value.trim();
-    const hours = parseInt(hoursInput.value);
-
-    if (name && hours > 0) {
-        lockedCourses.push({
-            id: Date.now(),
-            name,
-            hours
-        });
-
-        nameInput.value = '';
-        hoursInput.value = '';
-
-        renderAll();
-    } else {
-        alert('Por favor, preencha todos os campos corretamente!');
-    }
-}
-
-function removeLockedCourse(courseId) {
-    lockedCourses = lockedCourses.filter(course => course.id !== courseId);
     renderAll();
 }
 
@@ -136,9 +112,6 @@ function calculateTotalIRA() {
     let lockedHours = 0;
 
     // Calculate locked hours
-    lockedCourses.forEach(course => {
-        lockedHours += course.hours;
-    });
 
     // Calculate total hours and weighted grades
     semesters.forEach(semester => {
@@ -158,40 +131,6 @@ function calculateTotalIRA() {
     const gradeAverage = numerator / denominatorGrades;
 
     return lockedPenalty * gradeAverage;
-}
-
-function getTotalLockedHours() {
-    return lockedCourses.reduce((total, course) => total + course.hours, 0);
-}
-
-function renderLockedCourses() {
-    const container = document.getElementById('locked-courses-container');
-    const totalHours = getTotalLockedHours();
-    
-    container.innerHTML = `
-        <div class="locked-header">
-            <span class="locked-title">Cadeiras Trancadas</span>
-            <span class="locked-total">Total: ${totalHours}h</span>
-        </div>
-        
-        <div class="form-section">
-            <div class="locked-form-group">
-                <input type="text" id="locked-name" placeholder="Nome da disciplina trancada" />
-                <input type="number" id="locked-hours" placeholder="Horas" min="1" />
-                <button class="btn btn-add" onclick="addLockedCourse()">Adicionar</button>
-            </div>
-        </div>
-
-        <div class="subjects-list">
-            ${lockedCourses.map(course => `
-                <div class="locked-item">
-                        <div class="subject-name">${course.name}</div>
-                        <div class="subject-hours">${course.hours}h</div>
-                        <button class="btn btn-remove" onclick="removeLockedCourse(${course.id})"><i class="fas fa-times"></i></button>
-                </div>
-            `).join('')}
-        </div>
-    `;
 }
 
 function calculateIRAGeral() {
@@ -219,8 +158,18 @@ function renderSemesters() {
             <div class="form-section">
                 <div class="form-group">
                     <input type="text" id="subject-name-${semester.id}" placeholder="Nome da disciplina" />
-                    <input type="number" id="subject-hours-${semester.id}" placeholder="Horas" min="1" />
+                    <select id="subject-hours-${semester.id}">
+                        <option value="32">32h</option>
+                        <option value="64" selected>64h</option>
+                        <option value="96">96h</option>
+                    </select>
                     <input type="number" id="subject-grade-${semester.id}" placeholder="Nota" min="0" max="10" step="0.1" />
+                    <select id="subject-status-${semester.id}">
+                        <option value="Aprovada" selected>Aprovada</option>
+                        <option value="Aproveitada">Aproveitada</option>
+                        <option value="Reprovada">Reprovada</option>
+                        <option value="Trancada">Trancada</option>
+                    </select>
                     <button class="btn btn-add" onclick="addSubject(${semester.id})">Adicionar</button>
                 </div>
             </div>
@@ -228,10 +177,11 @@ function renderSemesters() {
             <div class="subjects-list">
                 ${semester.subjects.map(subject => `
                     <div class="subject-item">
-                            <div class="subject-name">${subject.name}</div>
+                            <div class="subject-name">${parseTitle(subject.name)}</div>
                             <div class="subject-hours">${subject.hours}h</div>
-                            <div class="subject-grade">${subject.grade.toFixed(1)}</div>
-                            <button class="btn btn-remove" onclick="removeSubject(${semester.id}, ${subject.id})"><i class="fas fa-times"></i></button>
+                            <div class="subject-grade">${String(subject.grade.toFixed(1))}</div>
+                            <div class="subject-status">${subject.status}</div>
+                            <div><button class="btn btn-remove" onclick="removeSubject(${semester.id}, ${subject.id})"><i class="fas fa-times"></i></button></div>
                     </div>
                 `).join('')}
             </div>
@@ -243,7 +193,6 @@ function renderSemesters() {
 function saveData() {
     localStorage.setItem('meuIRA', JSON.stringify({
         semesters,
-        lockedCourses,
         courseStats
     }));
 }
@@ -253,7 +202,6 @@ function loadData() {
     if (saved) {
         const data = JSON.parse(saved);
         semesters = data.semesters || [];
-        lockedCourses = data.lockedCourses || [];
         courseStats = data.courseStats || { media: null, desvio: null };
         renderAll();
         
@@ -270,7 +218,6 @@ function loadData() {
 function exportBackup() {
     const data = {
         semesters,
-        lockedCourses,
         version: '1.0'
     };
     
@@ -352,7 +299,6 @@ document.getElementById('curso-media').addEventListener('input', renderAll);
 document.getElementById('curso-desvio').addEventListener('input', renderAll);
 
 function renderAll() {
-    renderLockedCourses();
     renderSemesters();
     renderBackupControls();
     

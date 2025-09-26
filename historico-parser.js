@@ -1,44 +1,3 @@
-// Set the worker source for PDF.js
-pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.worker.min.js';
-        
-// Manipula o evento de seleção de arquivo
-document.getElementById('file-input').addEventListener('change', function(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-    
-    // Usa PDF.js para extrair texto do PDF
-    const reader = new FileReader();
-    
-    reader.onload = function(e) {
-    const arrayBuffer = e.target.result;
-    
-    pdfjsLib.getDocument(arrayBuffer).promise.then(function(pdf) {
-        let textContent = '';
-        const numPages = pdf.numPages;
-        let pagesProcessed = 0;
-        
-        for (let pageNum = 1; pageNum <= numPages; pageNum++) {
-        pdf.getPage(pageNum).then(function(page) {
-            page.getTextContent().then(function(textContentObj) {
-            const pageText = textContentObj.items.map(item => item.str).join(' ');
-            textContent += pageText + '\n';
-            pagesProcessed++;
-            
-            if (pagesProcessed === numPages) {
-                // Todas as páginas foram processadas
-                parseAcademicData(textContent);
-            }
-            });
-        });
-        }
-    }).catch(function(error) {
-        console.log('Erro ao processar o PDF: ' + error.message);
-    });
-    };
-    
-    reader.readAsArrayBuffer(file);
-});
-
 function parseAcademicData(data) {
     const matches = data.match(/202\d\.\d/g);
 
@@ -65,10 +24,12 @@ function parseAcademicData(data) {
 
     // Extract only the academic records (components curriculares)
     const academicRecords = data.filter(item => {
-        console.log(item);
         const trimmed = item.trim();
-        // Only keep items that start with year pattern and contain course codes
-        return /^\d{4}\.\d/.test(trimmed) && /QXD\d+|EXT\d+|SIQXD\d+/.test(trimmed);
+        // Only keep items that start with year pattern, contain course codes, and have valid academic status
+        return /^\d{4}\.\d/.test(trimmed) && 
+               /QXD\d+|EXT\d+|SIQXD\d+/.test(trimmed) &&
+               /\s+(APROVADO|REPROVADO|MATRICULADO|TRANCADO|APROVEITADO)\s/.test(trimmed) &&
+               !/MATRÍCULA|INGRESSO|ENTRADA/.test(trimmed.toUpperCase());
     });
 
     const parsedRecords = academicRecords.map(record => {
@@ -84,8 +45,8 @@ function parseAcademicData(data) {
         const nomeMatch = trimmed.match(/^\d{4}\.\d\s+(.+?)\s+\d+A?\s+/);
         const nome = nomeMatch ? nomeMatch[1].trim() : '';
 
-        // Extract situation (APROVADO, REPROVADO, MATRICULADO, TRANCADO, etc.)
-        const situacaoMatch = trimmed.match(/\s+(APROVADO|REPROVADO|MATRICULADO|TRANCADO)(\s+MÉDIA)?/);
+        // Extract situation (APROVADO, REPROVADO, MATRICULADO, TRANCADO, APROVEITADO, etc.)
+        const situacaoMatch = trimmed.match(/\s+(APROVADO|REPROVADO|MATRICULADO|TRANCADO|APROVEITADO)(\s+MÉDIA)?/);
         const situacao = situacaoMatch ? situacaoMatch[1] + (situacaoMatch[2] || '') : '';
 
         // Extract hours (last number before "Docente(s)")
@@ -97,6 +58,7 @@ function parseAcademicData(data) {
         const notaMatch = cleanedForGrade.match(/(\d+\.?\d+)\s+\d+\.?\d*\s+Docente\(s\)/);
         const nota = notaMatch ? parseFloat(notaMatch[1]) : -1;
         console.log(notaMatch)
+        
         return {
             semestre,
             nome: nome.toLowerCase(),
@@ -106,27 +68,23 @@ function parseAcademicData(data) {
         };
     });
 
+    // Filter out invalid records (missing required fields)
+    const validRecords = parsedRecords.filter(record => 
+        record.semestre && 
+        record.nome && 
+        record.situacao &&
+        record.nome !== 'matrícula' &&
+        record.nome !== 'ingresso'
+    );
+
     // Group records by semester
     const groupedBySemester = {};
-    const lockedCoursesNew = [];
 
-    parsedRecords.forEach(record => {
-        if (record.situacao === 'trancado') {
-            // Add to locked courses if currently enrolled or withdrawn
-            lockedCoursesNew.push({
-                id: Date.now() + Math.random() * 1000,
-                name: record.nome,
-                hours: record.horas
-            });
-        } else if (record.situacao === 'matriculado') {
+    validRecords.forEach(record => {
+        if (!groupedBySemester[record.semestre]) {
+            groupedBySemester[record.semestre] = [];
         }
-        else {
-            // Only include completed courses (approved or failed)
-            if (!groupedBySemester[record.semestre]) {
-                groupedBySemester[record.semestre] = [];
-            }
-            groupedBySemester[record.semestre].push(record);
-        }
+        groupedBySemester[record.semestre].push(record);
     });
 
     // Convert to the desired format
@@ -140,19 +98,18 @@ function parseAcademicData(data) {
                 id: Date.now() + Math.random() * 100000,
                 name: record.nome,
                 hours: record.horas,
-                grade: record.nota
+                grade: record.nota,
+                status: record.situacao // Added status field
             }))
         }));
 
     const result = {
         semestersNew,
-        lockedCoursesNew,
         version: "1.0"
     };
 
     let ado = result;
     semesters = ado.semestersNew || [];
-    lockedCourses = ado.lockedCoursesNew || [];
     courseStats = ado || { media: null, desvio: null };
     renderAll();
     

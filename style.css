@@ -234,14 +234,14 @@ body {
 }
 
 .form-section {
-    padding: 20px;
+    padding: 20px 20px 5px 20px;
     background: var(--form-bg);
     transition: all 0.3s ease;
 }
 
 .form-group {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr auto;
+    grid-template-columns: 4fr 1fr 1fr 1fr auto;
     gap: 10px;
     margin-bottom: 15px;
     align-items: center;
@@ -266,6 +266,16 @@ body {
 }
 
 .form-group input {
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 14px;
+    background: var(--subject-bg);
+    color: var(--text-color);
+    transition: all 0.3s ease;
+}
+
+select {
     padding: 8px 12px;
     border: 1px solid var(--border-color);
     border-radius: 4px;
@@ -333,9 +343,9 @@ input::-webkit-inner-spin-button,
 
 .subject-item {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr auto;
+    grid-template-columns: 4fr 1fr 1fr 2fr auto;
     gap: 15px;
-    padding: 10px;
+    padding: 10px 20px;
     margin-bottom: 10px;
     background: var(--subject-bg);
     border-radius: 5px;
@@ -365,6 +375,12 @@ input::-webkit-inner-spin-button,
 
 .subject-hours {
     color: var(--text-secondary);
+    transition: all 0.3s ease;
+}
+
+.subject-status {
+    color: var(--text-secondary);
+    text-transform: capitalize;
     transition: all 0.3s ease;
 }
 

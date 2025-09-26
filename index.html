@@ -33,9 +33,8 @@
         <div class="content">
             <div class="warning-section">
                 <div class="warning-title"><i class="fas fa-exclamation-triangle"></i> Importante:</div>
-                <div>• Todo processamento é feito do lado do <b>cliente</b> (seus dados não saem do seu computador)</div>
-                <div>• Cadeiras reprovadas por <b>falta</b> devem ter nota <b>0</b></div>
-                <div>• Use a seção "Cadeiras Trancadas" para disciplinas que foram <b>trancadas</b></div>
+                <div>• Isto é um site estático, todo processamento é feito do lado do <b>cliente</b> (seus dados não saem do seu computador)</div>
+                <div>• Cadeiras reprovadas por <b>falta</b> irão ter nota <b>0</b></div>
             </div>
 
             <div class="import-courses-section">
@@ -45,8 +44,6 @@
                 <div id="file-message" class="file-message"></div>
             </div>
             <input type="file" id="file-input" accept=".pdf" style="display: none">
-
-            <div id="locked-courses-container" class="locked-courses-section"></div>
             
             <div id="semesters-container"></div>
             <div class="center">
@@ -74,6 +71,7 @@
         </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js"></script>
+    <script src="title-parser.js"></script>
     <script src="historico-parser.js"></script>
     <script src="script.js"></script>
 </body>
