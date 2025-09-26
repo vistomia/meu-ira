@@ -1,3 +1,44 @@
+// Set the worker source for PDF.js
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.worker.min.js';
+        
+// Manipula o evento de seleção de arquivo
+document.getElementById('file-input').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    // Usa PDF.js para extrair texto do PDF
+    const reader = new FileReader();
+    
+    reader.onload = function(e) {
+    const arrayBuffer = e.target.result;
+    
+    pdfjsLib.getDocument(arrayBuffer).promise.then(function(pdf) {
+        let textContent = '';
+        const numPages = pdf.numPages;
+        let pagesProcessed = 0;
+        
+        for (let pageNum = 1; pageNum <= numPages; pageNum++) {
+        pdf.getPage(pageNum).then(function(page) {
+            page.getTextContent().then(function(textContentObj) {
+            const pageText = textContentObj.items.map(item => item.str).join(' ');
+            textContent += pageText + '\n';
+            pagesProcessed++;
+            
+            if (pagesProcessed === numPages) {
+                // Todas as páginas foram processadas
+                parseAcademicData(textContent);
+            }
+            });
+        });
+        }
+    }).catch(function(error) {
+        console.log('Erro ao processar o PDF: ' + error.message);
+    });
+    };
+    
+    reader.readAsArrayBuffer(file);
+});
+
 function parseAcademicData(data) {
     const matches = data.match(/202\d\.\d/g);
 
@@ -24,12 +65,10 @@ function parseAcademicData(data) {
 
     // Extract only the academic records (components curriculares)
     const academicRecords = data.filter(item => {
+        console.log(item);
         const trimmed = item.trim();
-        // Only keep items that start with year pattern, contain course codes, and have valid academic status
-        return /^\d{4}\.\d/.test(trimmed) && 
-               /QXD\d+|EXT\d+|SIQXD\d+/.test(trimmed) &&
-               /\s+(APROVADO|REPROVADO|MATRICULADO|TRANCADO|APROVEITADO)\s/.test(trimmed) &&
-               !/MATRÍCULA|INGRESSO|ENTRADA/.test(trimmed.toUpperCase());
+        // Only keep items that start with year pattern and contain course codes
+        return /^\d{4}\.\d/.test(trimmed) && /QXD\d+|EXT\d+|SIQXD\d+/.test(trimmed);
     });
 
     const parsedRecords = academicRecords.map(record => {
@@ -68,19 +107,10 @@ function parseAcademicData(data) {
         };
     });
 
-    // Filter out invalid records (missing required fields)
-    const validRecords = parsedRecords.filter(record => 
-        record.semestre && 
-        record.nome && 
-        record.situacao &&
-        record.nome !== 'matrícula' &&
-        record.nome !== 'ingresso'
-    );
-
     // Group records by semester
     const groupedBySemester = {};
 
-    validRecords.forEach(record => {
+    parsedRecords.forEach(record => {
         if (!groupedBySemester[record.semestre]) {
             groupedBySemester[record.semestre] = [];
         }

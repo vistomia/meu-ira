@@ -1,6 +1,10 @@
 let semesters = [];
 let lockedCourses = [];
 let courseStats = { media: null, desvio: null };
+// --- ADDED START ---
+// State to track which subject is currently being edited
+let editingSubject = { semesterId: null, subjectId: null };
+// --- ADDED END ---
 
 // Light mode functionality
 function toggleLightMode() {
@@ -91,6 +95,45 @@ function removeSubject(semesterId, subjectId) {
     renderAll();
 }
 
+// --- ADDED START ---
+// Toggles the edit mode for a specific subject
+function toggleEdit(semesterId, subjectId) {
+    editingSubject = { semesterId, subjectId };
+    renderAll();
+}
+
+// Cancels the editing mode
+function cancelEdit() {
+    editingSubject = { semesterId: null, subjectId: null };
+    renderAll();
+}
+
+// Saves the edited subject data
+function saveSubject(semesterId, subjectId) {
+    const semester = semesters.find(s => s.id === semesterId);
+    const subject = semester.subjects.find(sub => sub.id === subjectId);
+
+    // Get new values from the input fields in the edit row
+    const newName = document.getElementById(`edit-name-${subjectId}`).value.trim();
+    const newHours = parseInt(document.getElementById(`edit-hours-${subjectId}`).value);
+    const newGrade = parseFloat(document.getElementById(`edit-grade-${subjectId}`).value);
+    const newStatus = document.getElementById(`edit-status-${subjectId}`).value;
+
+    // Validation
+    if (newName && newHours > 0 && newGrade >= 0 && newGrade <= 10) {
+        subject.name = newName;
+        subject.hours = newHours;
+        subject.grade = newGrade;
+        subject.status = newStatus;
+        
+        cancelEdit(); // This will reset the editing state and call renderAll()
+    } else {
+        alert('Por favor, preencha todos os campos corretamente!\nNota deve ser entre 0 e 10.');
+    }
+}
+// --- ADDED END ---
+
+
 function calculateSemesterIRA(subjects) {
     if (subjects.length === 0) return 0;
     
@@ -116,6 +159,9 @@ function calculateTotalIRA() {
     // Calculate total hours and weighted grades
     semesters.forEach(semester => {
         semester.subjects.forEach(subject => {
+            if (subject.grade === -1) {
+                return; // Skip subjects without a valid grade
+            }
             const semesterWeight = Math.min(semester.number, 6);
             numerator += semesterWeight * subject.hours * subject.grade;
             denominatorGrades += semesterWeight * subject.hours;
@@ -137,6 +183,7 @@ function calculateIRAGeral() {
         document.getElementById('ira-geral-value').textContent = iraGeral.toFixed(3);
 }
 
+// --- MODIFIED ---
 function renderSemesters() {
     const container = document.getElementById('semesters-container');
     container.innerHTML = '';
@@ -175,20 +222,55 @@ function renderSemesters() {
             </div>
 
             <div class="subjects-list">
-                ${semester.subjects.map(subject => `
-                    <div class="subject-item">
+                ${semester.subjects.map(subject => {
+                    // Check if the current subject is the one being edited
+                    if (editingSubject.subjectId === subject.id && editingSubject.semesterId === semester.id) {
+                        // --- RENDER EDIT MODE ---
+                        return `
+                        <div class="subject-item editing">
+                            <input type="text" id="edit-name-${subject.id}" value="${subject.name}" class="edit-input"/>
+                            
+                            <select id="edit-hours-${subject.id}" class="edit-input">
+                                <option value="32" ${subject.hours === 32 ? 'selected' : ''}>32h</option>
+                                <option value="64" ${subject.hours === 64 ? 'selected' : ''}>64h</option>
+                                <option value="96" ${subject.hours === 96 ? 'selected' : ''}>96h</option>
+                            </select>
+                            
+                            <input type="number" id="edit-grade-${subject.id}" value="${subject.grade.toFixed(1) == -1.0 ? '' : subject.grade.toFixed(1)}" min="0" max="10" step="0.1" class="edit-input"/>
+                            
+                            <select id="edit-status-${subject.id}" class="edit-input">
+                                <option value="Aprovada" ${subject.status === 'Aprovada' ? 'selected' : ''}>Aprovada</option>
+                                <option value="Aproveitada" ${subject.status === 'Aproveitada' ? 'selected' : ''}>Aproveitada</option>
+                                <option value="Reprovada" ${subject.status === 'Reprovada' ? 'selected' : ''}>Reprovada</option>
+                                <option value="Trancada" ${subject.status === 'Trancada' ? 'selected' : ''}>Trancada</option>
+                            </select>
+                            
+                            <div class="subject-actions">
+                                <button class="btn btn-save" onclick="saveSubject(${semester.id}, ${subject.id})"><i class="fas fa-check"></i></button>
+                                <button class="btn btn-cancel" onclick="cancelEdit()"><i class="fas fa-times"></i></button>
+                            </div>
+                        </div>`;
+                    } else {
+                        // --- RENDER DISPLAY MODE ---
+                        return `
+                        <div class="subject-item">
                             <div class="subject-name">${parseTitle(subject.name)}</div>
                             <div class="subject-hours">${subject.hours}h</div>
-                            <div class="subject-grade">${String(subject.grade.toFixed(1))}</div>
+                            <div class="subject-grade">${String(subject.grade.toFixed(1) == -1.0 ? 'N/A' : subject.grade.toFixed(1))}</div>
                             <div class="subject-status">${subject.status}</div>
-                            <div><button class="btn btn-remove" onclick="removeSubject(${semester.id}, ${subject.id})"><i class="fas fa-times"></i></button></div>
-                    </div>
-                `).join('')}
+                            <div class="subject-actions">
+                                <button class="btn btn-edit" onclick="toggleEdit(${semester.id}, ${subject.id})"><i class="fas fa-pencil-alt"></i></button>
+                                <button class="btn btn-remove" onclick="removeSubject(${semester.id}, ${subject.id})"><i class="fas fa-times"></i></button>
+                            </div>
+                        </div>`;
+                    }
+                }).join('')}
             </div>
         `;
         container.appendChild(semesterDiv);
     });
 }
+// --- END MODIFIED SECTION ---
 
 function saveData() {
     localStorage.setItem('meuIRA', JSON.stringify({

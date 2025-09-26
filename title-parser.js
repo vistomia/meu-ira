@@ -2,6 +2,8 @@
 
 
 function parseTitle(name) {
+    if (name.length < 5) return name.toUpperCase();
+
     return name
         .toLowerCase()
         .split(' ')
