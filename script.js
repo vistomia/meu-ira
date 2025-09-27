@@ -115,21 +115,23 @@ function saveSubject(semesterId, subjectId) {
 
     // Get new values from the input fields in the edit row
     const newName = document.getElementById(`edit-name-${subjectId}`).value.trim();
-    const newHours = parseInt(document.getElementById(`edit-hours-${subjectId}`).value);
+    const newHours = document.getElementById(`edit-hours-${subjectId}`).value == '' ? -1 : parseInt(document.getElementById(`edit-hours-${subjectId}`).value);
     const newGrade = parseFloat(document.getElementById(`edit-grade-${subjectId}`).value);
     const newStatus = document.getElementById(`edit-status-${subjectId}`).value;
 
-    // Validation
-    if (newName && newHours > 0 && newGrade >= 0 && newGrade <= 10) {
-        subject.name = newName;
-        subject.hours = newHours;
-        subject.grade = newGrade;
-        subject.status = newStatus;
-        
-        cancelEdit(); // This will reset the editing state and call renderAll()
+    
+    subject.name = newName ? newName : subject.name;
+    subject.hours = Math.max(newHours, 0);
+    if (subject.status.toLowerCase() === 'trancado' || subject.status.toLowerCase() === 'matriculado') {
+        subject.grade = -1; // For locked or enrolled subjects, set grade to -1
+    } else if (!isNaN(newGrade)) {
+        subject.grade = Math.min(Math.max(newGrade, -1), 10);
     } else {
-        alert('Por favor, preencha todos os campos corretamente!\nNota deve ser entre 0 e 10.');
+        subject.grade = -1; // Default to -1 if input is empty or invalid
     }
+    subject.status = newStatus;
+        
+    cancelEdit(); // This will reset the editing state and call renderAll()
 }
 // --- ADDED END ---
 
@@ -226,7 +228,7 @@ function renderSemesters() {
                         </select>
                         <input type="number" id="subject-grade-${semester.id}" placeholder="Nota" min="0" max="10" step="0.1" />
                     <select id="subject-status-${semester.id}">
-                        <option value="Aprovada" selected>Aprovado</option>
+                        <option value="Aprovada">Aprovado</option>
                         <option value="Aprovada" selected>Aprovado Média</option>
                         <option value="Aproveitada">Aproveitado</option>
                         <option value="Reprovada">Reprovado</option>
@@ -257,9 +259,11 @@ function renderSemesters() {
                             
                             <select id="edit-status-${subject.id}" class="edit-input">
                                 <option value="Aprovado" ${subject.status === 'Aprovado' ? 'selected' : ''}>Aprovado</option>
+                                <option value="Aprovado Média" ${subject.status === 'Aprovado Média' ? 'selected' : ''}>Aprovado Média</option>
                                 <option value="Aproveitado" ${subject.status === 'Aproveitado' ? 'selected' : ''}>Aproveitado</option>
                                 <option value="Reprovado" ${subject.status === 'Reprovado' ? 'selected' : ''}>Reprovado</option>
                                 <option value="Trancado" ${subject.status === 'Trancado' ? 'selected' : ''}>Trancado</option>
+                                <option value="Matriculado" ${subject.status === 'Matriculado' ? 'selected' : ''}>Matriculado</option>
                             </select>
                             
                             <div class="subject-actions">
