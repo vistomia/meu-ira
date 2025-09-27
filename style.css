@@ -587,7 +587,19 @@ input::-webkit-inner-spin-button,
     font-family: monospace;
     color: var(--header-bg);
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.3), 0 0 40px rgba(255, 255, 255, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
+
+.donate:hover {
+    transform: rotate(5deg) scale(1.05);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.5), 0 0 60px rgba(255, 255, 255, 0.3);
+}
+.donate:active {
+    transform: scale(0.95);
+    background-color: linear-gradient(60deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ffeaa7, #fd79a8);
+}
+
 
 @keyframes rainbow {
     0% {
