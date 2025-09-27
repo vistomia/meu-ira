@@ -398,6 +398,44 @@ function renderBackupControls() {
     `;
 }
 
+// Course data with average and standard deviation
+const courseData = {
+    'CC': { media: 0.0, desvio: 0.0, name: 'Ciência da Computação' },
+    'SI': { media: 7.22044086, desvio: 1.78380585, name: 'Sistemas de Informação' },
+    'ES': { media: 0.0, desvio: 0.0, name: 'Engenharia de Software' },
+    'EC': { media: 0.0, desvio: 0.0, name: 'Engenharia da Computação' },
+    'RC': { media: 0.0, desvio: 0.0, name: 'Redes de Computadores' },
+    'DD': { media: 0.0, desvio: 0.0, name: 'Design Digital' },
+    'OUTRO': { media: null, desvio: null, name: 'Outro / Não sei' }
+};
+
+// Handle course selection change
+document.getElementById('curso-select').addEventListener('change', function() {
+    const selectedCourse = this.value;
+    if (selectedCourse && courseData[selectedCourse]) {
+        courseStats.media = courseData[selectedCourse].media;
+        courseStats.desvio = courseData[selectedCourse].desvio;
+        
+        // Update the input fields to show the selected values
+        document.getElementById('curso-media').value = courseStats.media;
+        document.getElementById('curso-desvio').value = courseStats.desvio;
+        
+        if (selectedCourse === 'OUTRO') {
+            document.getElementById('curso-media').disabled = false;
+            document.getElementById('curso-desvio').disabled = false;
+        } else {
+            document.getElementById('curso-media').disabled = true;
+            document.getElementById('curso-desvio').disabled = true;
+        }
+        
+        document.getElementById('curso-media').value = courseData[selectedCourse].media;
+        document.getElementById('curso-desvio').value = courseData[selectedCourse].desvio;
+
+        renderAll();
+    }
+});
+
+// Keep the manual input listeners for custom values
 document.getElementById('curso-media').addEventListener('input', renderAll);
 document.getElementById('curso-desvio').addEventListener('input', renderAll);
 

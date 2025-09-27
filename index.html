@@ -53,8 +53,18 @@
             <div id="ira-geral-section" class="ira-geral-section">
                 <div class="ira-geral-form">
                     <div class="ira-geral-inputs">
-                        <input type="number" id="curso-media" placeholder="Média do Curso (SIGAA Histórico IRA)"/>
-                        <input type="number" id="curso-desvio" placeholder="Desvio Padrão do Curso (SIGAA Histórico IRA)" />
+                        <select name="" id="curso-select">
+                            <option value="" disabled selected>Selecione seu curso</option>
+                            <option value="CC">Ciência da Computação</option>
+                            <option value="EC">Engenharia da Computação</option>
+                            <option value="SI">2025.1 • Sistemas de Informação</option>
+                            <option value="ES">Engenharia de Software</option>
+                            <option value="DD">Design Digital</option>
+                            <option value="RC">Redes de Computadores</option>
+                            <option value="OUTRO">Outro</option>
+                        </select>
+                        <input type="number" id="curso-media" disabled placeholder="Média do Curso (SIGAA Histórico IRA)"/>
+                        <input type="number" id="curso-desvio" disabled placeholder="Desvio Padrão do Curso (SIGAA Histórico IRA)" />
                     </div>
                 </div>
                 <div class="ira-geral-result">
