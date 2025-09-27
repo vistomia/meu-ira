@@ -148,36 +148,50 @@ function calculateSemesterIRA(subjects) {
     return totalHours > 0 ? (totalPoints / totalHours) : 0;
 }
 
+// --- BUG FIX START ---
 function calculateTotalIRA() {
     let numerator = 0;
     let denominatorGrades = 0;
-    let totalHours = 0;
-    let lockedHours = 0;
+    let totalGradedHours = 0; // Horas de disciplinas com nota
+    let lockedHours = 0;      // Horas de disciplinas trancadas
 
-    // Calculate locked hours
-
-    // Calculate total hours and weighted grades
     semesters.forEach(semester => {
         semester.subjects.forEach(subject => {
-            if (subject.grade === -1) {
-                return; // Skip subjects without a valid grade
+            // Verifica se a disciplina está trancada e soma as horas
+            if (subject.status.toLowerCase() === 'trancado') {
+                lockedHours += subject.hours;
+            } 
+            // Se não estiver trancada e tiver uma nota válida, processa para a média
+            else if (subject.grade !== -1) { 
+                const semesterWeight = Math.min(semester.number, 6);
+                numerator += semesterWeight * subject.hours * subject.grade;
+                denominatorGrades += semesterWeight * subject.hours;
+                totalGradedHours += subject.hours;
             }
-            const semesterWeight = Math.min(semester.number, 6);
-            numerator += semesterWeight * subject.hours * subject.grade;
-            denominatorGrades += semesterWeight * subject.hours;
-            totalHours += subject.hours;
         });
     });
 
-    totalHours += lockedHours;
+    // O total de horas para o cálculo da penalidade é a soma de todas as horas cursadas (com nota ou trancadas)
+    const totalHours = totalGradedHours + lockedHours;
 
-    if (denominatorGrades === 0 || totalHours === 0) return 0;
+    // Evita divisão por zero se não houver disciplinas
+    if (denominatorGrades === 0) return 0;
+    if (totalHours === 0) {
+        // Se houver notas mas o total de horas for 0 (caso raro), retorna a média simples
+        return numerator / denominatorGrades;
+    }
 
+    // 1. Calcula a penalidade corretamente. Se lockedHours for 0, o resultado é 1 (sem penalidade).
     const lockedPenalty = 1 - (0.5 * lockedHours) / totalHours;
+    
+    // 2. Calcula a média ponderada das notas.
     const gradeAverage = numerator / denominatorGrades;
 
+    // 3. Aplica a penalidade à média.
     return lockedPenalty * gradeAverage;
 }
+// --- BUG FIX END ---
+
 
 function calculateIRAGeral() {
         document.getElementById('ira-geral-value').textContent = iraGeral.toFixed(3);
@@ -195,9 +209,9 @@ function renderSemesters() {
         semesterDiv.className = 'semester-section';
         semesterDiv.innerHTML = `
             <div class="semester-header">
-                <span class="semester-title">${semester.name}</span>
+                <span class="semester-title">${semester.number}º Semestre</span>
                 <div>
-                    <span class="semester-ira">IRA: ${semesterIRA.toFixed(3)}</span>
+                    <span class="semester-ira">IRA: ${semesterIRA.toFixed(3) == -1 ? 'N/A' : semesterIRA.toFixed(3)}</span>
                     <button class="btn btn-remove" onclick="removeSemester(${semester.id})"><i class="fas fa-times"></i></button>
                 </div>
             </div>
@@ -209,14 +223,14 @@ function renderSemesters() {
                         <option value="32">32h</option>
                         <option value="64" selected>64h</option>
                         <option value="96">96h</option>
-                    </select>
-                    <input type="number" id="subject-grade-${semester.id}" placeholder="Nota" min="0" max="10" step="0.1" />
+                        </select>
+                        <input type="number" id="subject-grade-${semester.id}" placeholder="Nota" min="0" max="10" step="0.1" />
                     <select id="subject-status-${semester.id}">
-                        <option value="Aprovada" selected>Aprovada</option>
-                        <option value="Aproveitada">Aproveitada</option>
-                        <option value="Reprovada">Reprovada</option>
-                        <option value="Trancada">Trancada</option>
-                    </select>
+                        <option value="Aprovada" selected>Aprovado</option>
+                        <option value="Aproveitada">Aproveitado</option>
+                        <option value="Reprovada">Reprovado</option>
+                        <option value="Trancado">Trancado</option>
+                        </select>
                     <button class="btn btn-add" onclick="addSubject(${semester.id})">Adicionar</button>
                 </div>
             </div>
@@ -226,6 +240,7 @@ function renderSemesters() {
                     // Check if the current subject is the one being edited
                     if (editingSubject.subjectId === subject.id && editingSubject.semesterId === semester.id) {
                         // --- RENDER EDIT MODE ---
+                        console.log("foi nao:" + subject.status)
                         return `
                         <div class="subject-item editing">
                             <input type="text" id="edit-name-${subject.id}" value="${subject.name}" class="edit-input"/>
@@ -239,10 +254,10 @@ function renderSemesters() {
                             <input type="number" id="edit-grade-${subject.id}" value="${subject.grade.toFixed(1) == -1.0 ? '' : subject.grade.toFixed(1)}" min="0" max="10" step="0.1" class="edit-input"/>
                             
                             <select id="edit-status-${subject.id}" class="edit-input">
-                                <option value="Aprovada" ${subject.status === 'Aprovada' ? 'selected' : ''}>Aprovada</option>
-                                <option value="Aproveitada" ${subject.status === 'Aproveitada' ? 'selected' : ''}>Aproveitada</option>
-                                <option value="Reprovada" ${subject.status === 'Reprovada' ? 'selected' : ''}>Reprovada</option>
-                                <option value="Trancada" ${subject.status === 'Trancada' ? 'selected' : ''}>Trancada</option>
+                                <option value="Aprovado" ${subject.status === 'Aprovado' ? 'selected' : ''}>Aprovado</option>
+                                <option value="Aproveitado" ${subject.status === 'Aproveitado' ? 'selected' : ''}>Aproveitado</option>
+                                <option value="Reprovado" ${subject.status === 'Reprovado' ? 'selected' : ''}>Reprovado</option>
+                                <option value="Trancado" ${subject.status === 'Trancado' ? 'selected' : ''}>Trancado</option>
                             </select>
                             
                             <div class="subject-actions">
@@ -255,7 +270,7 @@ function renderSemesters() {
                         return `
                         <div class="subject-item">
                             <div class="subject-name">${parseTitle(subject.name)}</div>
-                            <div class="subject-hours">${subject.hours}h</div>
+                            <div class="subject-hours">${subject.hours != -1 ? subject.hours + "h" : '~'}</div>
                             <div class="subject-grade">${String(subject.grade.toFixed(1) == -1.0 ? 'N/A' : subject.grade.toFixed(1))}</div>
                             <div class="subject-status">${subject.status}</div>
                             <div class="subject-actions">

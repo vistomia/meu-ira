@@ -81,11 +81,12 @@ function parseAcademicData(data) {
         const semestre = semestreMatch ? semestreMatch[0] : '';
 
         // Extract course name (after semester, before code)
-        const nomeMatch = trimmed.match(/^\d{4}\.\d\s+(.+?)\s+\d+A?\s+/);
-        const nome = nomeMatch ? nomeMatch[1].trim() : '';
+        // Extract course name (after semester, before situation or code)
+        const nomeMatch = trimmed.match(/^\d{4}\.\d\s+(.+?)\s+(?:\d+A?\s+)?(?:APROVT INTERNO|APROVADO|REPROVADO|MATRICULADO|TRANCADO|APROVEITADO|QXD\d+|EXT\d+|SIQXD\d+)/);
+        const nome = nomeMatch ? nomeMatch[1].trim().replace(/--/g, '') : '';
 
         // Extract situation (APROVADO, REPROVADO, MATRICULADO, TRANCADO, APROVEITADO, etc.)
-        const situacaoMatch = trimmed.match(/\s+(APROVADO|REPROVADO|MATRICULADO|TRANCADO|APROVEITADO)(\s+MÉDIA)?/);
+        const situacaoMatch = trimmed.match(/\s+(APROVT INTERNO|APROVT EXTERNO|APROVT|APROVADO|REPROVADO|MATRICULADO|TRANCADO|APROVEITADO)(\s+MÉDIA)?/);
         const situacao = situacaoMatch ? situacaoMatch[1] + (situacaoMatch[2] || '') : '';
 
         // Extract hours (last number before "Docente(s)")
@@ -118,21 +119,22 @@ function parseAcademicData(data) {
     });
 
     // Convert to the desired format
+    let nextId = 1;
     const semestersNew = Object.keys(groupedBySemester)
         .sort()
         .map((semester, index) => ({
-            id: Date.now() + index,
-            name: `${index + 1}º Semestre`,
+            id: nextId++,
             number: index + 1,
             subjects: groupedBySemester[semester].map(record => ({
-                id: Date.now() + Math.random() * 100000,
+                id: nextId++,
                 name: record.nome,
                 hours: record.horas,
                 grade: record.nota,
                 status: record.situacao // Added status field
             }))
         }));
-
+    
+    console.log(semestersNew);
     const result = {
         semestersNew,
         version: "1.0"

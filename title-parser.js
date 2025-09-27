@@ -37,5 +37,8 @@ function parseTitle(name) {
         .replace(/\bPela\b/g, 'pela')
         .replace(/\bPelas\b/g, 'pelas')
         .replace(/\bÀ\b/g, 'à')
-        .replace(/\bÀs\b/g, 'às');
+        .replace(/\bPara\b/g, 'para')
+        .replace(/\bÀs\b/g, 'às')
+        .replace(/\bQue\b/g, 'que')
+        .replace(/\bÀ\b/g, 'à');
 }
