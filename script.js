@@ -227,9 +227,11 @@ function renderSemesters() {
                         <input type="number" id="subject-grade-${semester.id}" placeholder="Nota" min="0" max="10" step="0.1" />
                     <select id="subject-status-${semester.id}">
                         <option value="Aprovada" selected>Aprovado</option>
+                        <option value="Aprovada" selected>Aprovado Média</option>
                         <option value="Aproveitada">Aproveitado</option>
                         <option value="Reprovada">Reprovado</option>
                         <option value="Trancado">Trancado</option>
+                        <option value="Matriculado">Matriculado</option>
                         </select>
                     <button class="btn btn-add" onclick="addSubject(${semester.id})">Adicionar</button>
                 </div>
