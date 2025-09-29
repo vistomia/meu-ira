@@ -400,7 +400,7 @@ function renderBackupControls() {
 
 // Course data with average and standard deviation
 const courseData = {
-    'CC': { media: 0.0, desvio: 0.0, name: 'Ciência da Computação' },
+    'CC': { media: 7.06818247, desvio: 1.6854862, name: 'Ciência da Computação' },
     'SI': { media: 7.22044086, desvio: 1.78380585, name: 'Sistemas de Informação' },
     'ES': { media: 7.76488256, desvio: 1.56872928, name: 'Engenharia de Software' },
     'EC': { media: 0.0, desvio: 0.0, name: 'Engenharia da Computação' },
