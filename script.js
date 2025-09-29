@@ -122,7 +122,7 @@ function saveSubject(semesterId, subjectId) {
     
     subject.name = newName ? newName : subject.name;
     subject.hours = Math.max(newHours, 0);
-    if (subject.status.toLowerCase() === 'trancado' || subject.status.toLowerCase() === 'matriculado') {
+    if (newStatus.toLowerCase() === 'trancado' || newStatus.toLowerCase() === 'matriculado') {
         subject.grade = -1; // For locked or enrolled subjects, set grade to -1
     } else if (!isNaN(newGrade)) {
         subject.grade = Math.min(Math.max(newGrade, -1), 10);
