@@ -405,7 +405,7 @@ const courseData = {
     'ES': { media: 0.0, desvio: 0.0, name: 'Engenharia de Software' },
     'EC': { media: 0.0, desvio: 0.0, name: 'Engenharia da Computação' },
     'RC': { media: 0.0, desvio: 0.0, name: 'Redes de Computadores' },
-    'DD': { media: 0.0, desvio: 0.0, name: 'Design Digital' },
+    'DD': { media: 8.37783527, desvio: 1.23697138, name: 'Design Digital' },
     'OUTRO': { media: null, desvio: null, name: 'Outro / Não sei' }
 };
 
