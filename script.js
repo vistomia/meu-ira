@@ -402,7 +402,7 @@ function renderBackupControls() {
 const courseData = {
     'CC': { media: 0.0, desvio: 0.0, name: 'Ciência da Computação' },
     'SI': { media: 7.22044086, desvio: 1.78380585, name: 'Sistemas de Informação' },
-    'ES': { media: 0.0, desvio: 0.0, name: 'Engenharia de Software' },
+    'ES': { media: 7.76488256, desvio: 1.56872928, name: 'Engenharia de Software' },
     'EC': { media: 0.0, desvio: 0.0, name: 'Engenharia da Computação' },
     'RC': { media: 0.0, desvio: 0.0, name: 'Redes de Computadores' },
     'DD': { media: 8.37783527, desvio: 1.23697138, name: 'Design Digital' },
