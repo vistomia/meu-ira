@@ -228,10 +228,10 @@ function renderSemesters() {
                         </select>
                         <input type="number" id="subject-grade-${semester.id}" placeholder="Nota" min="0" max="10" step="0.1" />
                     <select id="subject-status-${semester.id}">
-                        <option value="Aprovada">Aprovado</option>
-                        <option value="Aprovada" selected>Aprovado Média</option>
-                        <option value="Aproveitada">Aproveitado</option>
-                        <option value="Reprovada">Reprovado</option>
+                        <option value="Aprovado">Aprovado</option>
+                        <option value="Aprovado Média" selected>Aprovado Média</option>
+                        <option value="Aproveitado">Aproveitado</option>
+                        <option value="Reprovado">Reprovado</option>
                         <option value="Trancado">Trancado</option>
                         <option value="Matriculado">Matriculado</option>
                         </select>
@@ -243,8 +243,6 @@ function renderSemesters() {
                 ${semester.subjects.map(subject => {
                     // Check if the current subject is the one being edited
                     if (editingSubject.subjectId === subject.id && editingSubject.semesterId === semester.id) {
-                        // --- RENDER EDIT MODE ---
-                        console.log("foi nao:" + subject.status)
                         return `
                         <div class="subject-item editing">
                             <input type="text" id="edit-name-${subject.id}" value="${subject.name}" class="edit-input"/>
