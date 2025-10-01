@@ -401,7 +401,7 @@ const courseData = {
     'CC': { media: 7.06818247, desvio: 1.6854862, name: 'Ciência da Computação' },
     'SI': { media: 7.22044086, desvio: 1.78380585, name: 'Sistemas de Informação' },
     'ES': { media: 7.76488256, desvio: 1.56872928, name: 'Engenharia de Software' },
-    'EC': { media: 0.0, desvio: 0.0, name: 'Engenharia da Computação' },
+    'EC': { media: 6.2446, desvio: 2.0459, name: 'Engenharia da Computação' },
     'RC': { media: 6.31597328, desvio: 2.03052092, name: 'Redes de Computadores' },
     'DD': { media: 8.37783527, desvio: 1.23697138, name: 'Design Digital' },
     'OUTRO': { media: null, desvio: null, name: 'Outro / Não sei' }
