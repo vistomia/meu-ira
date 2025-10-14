@@ -11,11 +11,9 @@ Uma calculadora de notas para o seu IRA (Índice de Rendimento Acadêmico) da Un
 
 https://vistomia.github.io/meu-ira/
 
-## Doe
+## Me doa um crédito do RU
 
-Se você gosta do projeto e quer me ajudar a manter este e criar outros projetos relacionados à UFC, considere fazer uma doação:
-
-<p align="center">
+<p align="left">
     <img src="https://github.com/vistomia/meu-ira/blob/main/qrcode.png?raw=true" alt="Doe com Pix" width="200"/>
 </p>
 
