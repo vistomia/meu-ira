@@ -25,6 +25,9 @@
     --shadow: 0 10px 30px rgba(0,0,0,0.6);
     --subject-shadow: 0 2px 5px rgba(0,0,0,0.3);
     --fa-color: #F1F1F1;
+    --info-bg: #181f30;
+    --info-border: #465a6d6e;
+    --info-text: #e7e3e3ef;
 }
 
 [data-theme="light"] {
@@ -48,6 +51,9 @@
     --shadow: 0 10px 30px rgba(0,0,0,0.3);
     --subject-shadow: 0 2px 5px rgba(0,0,0,0.1);
     --fa-color: #000;
+    --info-bg: #f0f0f0;
+    --info-border: #dcdcdc;
+    --info-text: #333;
 }
 
 * {
@@ -150,6 +156,17 @@ body {
     padding: 15px;
     margin-bottom: 20px;
     color: var(--warning-text);
+    transition: all 0.3s ease;
+}
+
+.info-section {
+    background: var(--info-bg);
+    border: 1px solid var(--info-border);
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    color: var(--info-text);
+    text-align: justify;
     transition: all 0.3s ease;
 }
 
