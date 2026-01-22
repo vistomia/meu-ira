@@ -17,5 +17,7 @@ https://vistomia.github.io/meu-ira/
     <img src="https://github.com/vistomia/meu-ira/blob/main/qrcode.png?raw=true" alt="Doe com Pix" width="200"/>
 </p>
 
-chave pix:\
-*00020101021126580014br.gov.bcb.pix01364f3264de-91e5-4424-aede-8fd876c277c95204000053039865802BR5922VICTOR FARIAS DA SILVA6007QUIXADA62070503***6304566A*
+chave pix:
+```
+00020101021126580014br.gov.bcb.pix01364f3264de-91e5-4424-aede-8fd876c277c95204000053039865802BR5922VICTOR FARIAS DA SILVA6007QUIXADA62070503***6304566A
+``
