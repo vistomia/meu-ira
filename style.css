@@ -62,8 +62,10 @@
     box-sizing: border-box;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=SN+Pro:ital,wght@0,200..900;1,200..900&family=VT323&display=swap');
+
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Roboto Mono', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: var(--container-bg);
     min-height: 100vh;
     margin: 0;
@@ -209,7 +211,7 @@ body {
 .semester-section {
     margin-bottom: 30px;
     border: 1px solid var(--border-color);
-    border-radius: 8px;
+    border-radius: 16px;
     overflow: hidden;
     transition: all 0.3s ease;
 }
@@ -294,7 +296,7 @@ body {
 }
 
 .form-section {
-    padding: 20px 20px 5px 20px;
+    padding: 8px;
     background: var(--form-bg);
     transition: all 0.3s ease;
 }
@@ -396,19 +398,21 @@ input::-webkit-inner-spin-button,
 }
 
 .subjects-list {
-    padding: 20px;
+    padding: 8px;
     background: var(--container-bg);
     transition: all 0.3s ease;
+    display: flex;
+    gap: 8px;
+    flex-direction: column;
 }
 
 .subject-item {
     display: grid;
     grid-template-columns: 4fr 1fr 1fr 2fr auto;
     gap: 15px;
-    padding: 10px 20px;
-    margin-bottom: 10px;
+    padding: 12px 16px;
     background: var(--subject-bg);
-    border-radius: 5px;
+    border-radius: 8px;
     box-shadow: var(--subject-shadow);
     align-items: center;
     transition: all 0.3s ease;
@@ -447,6 +451,8 @@ input::-webkit-inner-spin-button,
 .subject-grade {
     color: #2196F3;
     font-weight: bold;
+    text-align: end;
+    padding: 0px 20px;
 }
 
 .ira-total {

@@ -64,29 +64,30 @@ function addSubject(semesterId) {
     const gradeInput = document.getElementById(`subject-grade-${semesterId}`);
     const statusInput = document.getElementById(`subject-status-${semesterId}`);
 
-    const name = nameInput.value.trim();
+    const name = nameInput.value.trim() || "Disciplina de exemplo";
     const hours = parseInt(hoursInput.value);
-    const grade = parseFloat(gradeInput.value);
+    const grade = gradeInput.value === '' ? -1 : Math.min(parseFloat(gradeInput.value), 10.0);
     const status = statusInput.value.trim();
 
-    if (name && hours > 0 && grade >= 0 && grade <= 10) {
-        semester.subjects.push({
-            id: Date.now(),
-            name,
-            hours,
-            grade,
-            status
-        });
-
-        nameInput.value = '';
-        hoursInput.value = '';
+    if (grade === -1) {
         gradeInput.value = '';
-        statusInput.value = '';
-
-        renderAll();
-    } else {
-        alert('Por favor, preencha todos os campos corretamente!\nNota deve ser entre 0 e 10.');
+        return
     }
+    
+    semester.subjects.push({
+        id: Date.now(),
+        name,
+        hours,
+        grade,
+        status
+    });
+
+    nameInput.value = '';
+    hoursInput.value = '';
+    gradeInput.value = '';
+    statusInput.value = '';
+
+    renderAll();
 }
 
 function removeSubject(semesterId, subjectId) {
