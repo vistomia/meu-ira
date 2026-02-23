@@ -14,7 +14,7 @@ https://vistomia.github.io/meu-ira/
 ## Me doa um crédito do RU
 
 <p align="left">
-    <img src="https://github.com/vistomia/meu-ira/blob/main/qrcode.png?raw=true" alt="Doe com Pix" width="200"/>
+    <img src="assets/qrcode.png" alt="Doe com Pix" width="200"/>
 </p>
 
 chave pix:
