@@ -367,6 +367,7 @@ select {
 
 input {
     -moz-appearance: textfield;
+    appearance: textfield;
 }
 
 input::-webkit-inner-spin-button,
@@ -588,7 +589,7 @@ input::-webkit-inner-spin-button,
 }
 
 .btn-star {
-    background-color: #db8b11;
+    background-color: #d48611;
     color: var(--text-color);
 }
 
