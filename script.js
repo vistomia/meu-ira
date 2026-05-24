@@ -3,6 +3,7 @@ const modal = document.getElementById("modalQrCode");
 const abrir = document.getElementById("doe");
 const btnFechar = document.getElementById("fecha-modal");
 
+modal.style.display = "none"
 // Quando o usuário clicar no (x), fecha o modal
 abrir.addEventListener("click", function() {
     console.log("oi")
