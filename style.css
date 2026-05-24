@@ -130,7 +130,7 @@ body {
     background: none;
     color: white;
     border: 1px solid rgba(255, 255, 255, 0.3);
-    padding: 8px 16px;
+    padding: 1em 1em;
     border-radius: 20px;
     cursor: pointer;
     font-size: 14px;
@@ -138,8 +138,14 @@ body {
     white-space: nowrap;
 }
 
-.btn-theme-toggle:hover {
-    background: rgba(39, 33, 33, 0.3);
+.doe-section {
+    margin: 20px 0;
+    background: var(--form-bg);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    user-select: none;
 }
 
 .content {
@@ -624,6 +630,9 @@ input::-webkit-inner-spin-button,
     background-color: linear-gradient(60deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ffeaa7, #fd79a8);
 }
 
+.doe{
+    font-size: large;
+}
 
 @keyframes rainbow {
     0% {
@@ -695,4 +704,164 @@ input::-webkit-inner-spin-button,
         min-width: auto;
         width: 100%;
     }
+}
+
+.wrapper {
+  background: linear-gradient(124deg, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3);
+  background-size: 1800% 1800%;
+  
+  -webkit-animation: rainbow 18s ease infinite;
+  -z-animation: rainbow 18s ease infinite;
+  -o-animation: rainbow 18s ease infinite;
+    animation: rainbow 18s ease infinite;}
+  
+  @-webkit-keyframes rainbow {
+      0%{background-position:0% 82%}
+      50%{background-position:100% 19%}
+      100%{background-position:0% 82%}
+  }
+  @-moz-keyframes rainbow {
+      0%{background-position:0% 82%}
+      50%{background-position:100% 19%}
+      100%{background-position:0% 82%}
+  }
+  @-o-keyframes rainbow {
+      0%{background-position:0% 82%}
+      50%{background-position:100% 19%}
+      100%{background-position:0% 82%}
+  }
+  @keyframes rainbow { 
+      0%{background-position:0% 82%}
+      50%{background-position:100% 19%}
+      100%{background-position:0% 82%}
+  }
+
+/*teste*/
+
+.marquee {
+    height: 1.4em;
+    overflow: hidden;
+    position: relative;
+  }
+  
+.marquee div {
+display: block;
+width: 200%;
+height: 200px;
+position: absolute;
+overflow: hidden;
+-webkit-animation: marquee 8S linear infinite;
+        animation: marquee 8s linear infinite;
+}
+
+.marquee span {
+width: 30%;
+letter-spacing: 2px;
+}
+  
+@-webkit-keyframes marquee {
+0% { left: 0; }
+100% { left: -100%; }
+}
+
+@keyframes marquee {
+0% { left: 0; }
+100% { left: -100%; }
+}
+
+/* Fundo escuro do Modal (Overlay) */
+.modal {
+    display: none;              /* hidden by default */
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+
+    background-color: rgba(0, 0, 0, 0.7);
+
+    /* center modal content */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /* prevent page scroll while open */
+    overflow: auto;
+}
+
+/* Caixa de conteúdo do Modal */
+.modal-conteudo {
+    background-color: #fff;
+    padding: 1em 1em;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    font-family: sans-serif;
+    animation: aparecerModal 0.3s ease-out;
+    margin: auto;
+}
+
+.copiarchave {
+    padding: 1em 3em;
+    background-color: #1de840;
+    border-radius: 16px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+.copiarchave:hover {
+    filter: brightness(0.95);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    transform: translateY(-1px);
+}
+
+.copiarchave:active {
+    transform: translateY(0) scale(0.98);
+    filter: brightness(0.9);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.18);
+}
+
+.copiarchave:focus-visible {
+    outline: 3px solid rgba(33, 150, 243, 0.6);
+    outline-offset: 2px;
+}
+
+
+
+/* Botão de Fechar (o 'X') */
+.fechar-modal {
+    color: #888;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.fechar-modal:hover,
+.fechar-modal:focus {
+    color: #000;
+    text-decoration: none;
+}
+
+/* Imagem do QR Code */
+.img-qrcode {
+    max-width: 100%;
+    height: auto;
+    margin-top: 20px;
+    border: 2px solid #eee;
+    border-radius: 8px;
+}
+
+/* Animação para o modal surgir suavemente */
+@keyframes aparecerModal {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
 }

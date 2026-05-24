@@ -24,7 +24,7 @@
                 <a href="https://github.com/vistomia" class="github-link" target="_blank" title="GitHub Profile">
                     <i class="fab fa-github" style="color: white"></i>
                 </a>
-                <img src="https://hitscounter.dev/api/hit?url=https%3A%2F%2Fvistomia.github.io%2Fmeu-ira%2F&label=&icon=eye-fill&color=%23241f31&message=&style=social&tz=UTC">
+                <!--<img src="https://hitscounter.dev/api/hit?url=https%3A%2F%2Fvistomia.github.io%2Fmeu-ira%2F&label=&icon=eye-fill&color=%23241f31&message=&style=social&tz=UTC">-->
                 <button class="btn btn-theme-toggle" onclick="toggleLightMode()" id="theme-toggle">
                     <i class="fas fa-sun"></i>
                 </button>
@@ -96,6 +96,31 @@
                 <div class="ira-geral-result">
                     <h3>IRA Geral</h3> 
                     <div class="ira-value" id="ira-geral-value">0.000</div>
+                </div>
+            </div>
+            <div class="doe-section wrapper" id="doe">
+                <div class="walking-text-container marquee">
+                    <div class="walking-text-content">
+                        <span>Me doe um crédito do RU • </span>
+                        <span>Me doe um crédito do RU • </span>
+                        <span>Me doe um crédito do RU • </span>
+                        <span>Me doe um crédito do RU • </span> 
+                        <span>Me doe um crédito do RU • </span>
+                        <span>Me doe um crédito do RU • </span>
+                        <span>Me doe um crédito do RU • </span>
+                        <span>Me doe um crédito do RU • </span>
+                    </div>
+                </div>
+            </div>
+            <div id="modalQrCode" class="modal">
+                <!-- Conteúdo do Modal -->
+                <div class="modal-conteudo">
+                    <span class="fechar-modal" id="fecha-modal">&times;</span>
+                    <h2>Escaneie para Doar</h2>
+                    
+                    <!-- Substitua o link do src abaixo pela imagem do seu QR Code real -->
+                    <img src="https://github.com/vistomia/meu-ira/raw/main/assets/qrcode.png" alt="QR Code para Doação" class="img-qrcode">
+                    <button class="copiarchave" id="copyButton"><i class="fas fa-copy"></i> Copiar Chave PIX</button>
                 </div>
             </div>
             <div id="backup-controls"></div>

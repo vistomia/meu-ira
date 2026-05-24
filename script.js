@@ -1,3 +1,40 @@
+// Pega os elementos do DOM
+const modal = document.getElementById("modalQrCode");
+const abrir = document.getElementById("doe");
+const btnFechar = document.getElementById("fecha-modal");
+
+// Quando o usuário clicar no (x), fecha o modal
+abrir.addEventListener("click", function() {
+    console.log("oi")
+    if (modal.style.display == "block") {
+        modal.style.display = "none";
+    } else {
+        modal.style.display = "block"
+    }
+});
+
+btnFechar.addEventListener("click", function() {
+    modal.style.display = "none";
+});
+
+// Quando o usuário clicar em qualquer lugar fora do conteúdo do modal, ele também fecha
+window.addEventListener("click", function(event) {
+    if (event.target === modal) {
+        modal.style.display = "none";
+    }
+});
+
+
+document.getElementById('copyButton').addEventListener('click', async () => {
+    const text = "00020101021126580014br.gov.bcb.pix01364f3264de-91e5-4424-aede-8fd876c277c95204000053039865802BR5922VICTOR FARIAS DA SILVA6007QUIXADA62070503***6304566A";
+    try {
+      await navigator.clipboard.writeText(text);
+      alert('Chave copiada!');
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+  });
+
 let semesters = [];
 let lockedCourses = [];
 let courseStats = { media: null, desvio: null };
@@ -20,9 +57,9 @@ function toggleLightMode() {
 function updateThemeToggleButton(theme) {
     const button = document.getElementById('theme-toggle');
     if (theme === 'dark') {
-        button.textContent = '☀️';
+        button.innerHTML = '<i class="fas fa-sun"></i>';
     } else {
-        button.textContent = '🌙';
+        button.innerHTML = '<i class="fas fa-moon"></i>';
     }
 }
 
