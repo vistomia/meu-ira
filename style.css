@@ -860,6 +860,13 @@ letter-spacing: 2px;
     border-radius: 8px;
 }
 
+footer {
+    padding: 1em;
+    text-align: center;
+    color: var(--text-color);
+    background-color: var(--section-bg);
+}
+
 /* Animação para o modal surgir suavemente */
 @keyframes aparecerModal {
     from { transform: scale(0.8); opacity: 0; }
