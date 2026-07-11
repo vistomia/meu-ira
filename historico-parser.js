@@ -18,18 +18,17 @@ document.getElementById('file-input').addEventListener('change', function(event)
         let pagesProcessed = 0;
         
         for (let pageNum = 1; pageNum <= numPages; pageNum++) {
-        pdf.getPage(pageNum).then(function(page) {
-            page.getTextContent().then(function(textContentObj) {
-            const pageText = textContentObj.items.map(item => item.str).join(' ');
-            textContent += pageText + '\n';
-            pagesProcessed++;
-            
-            if (pagesProcessed === numPages) {
-                // Todas as páginas foram processadas
-                parseAcademicData(textContent);
-            }
+            pdf.getPage(pageNum).then(function(page) {
+                page.getTextContent().then(function(textContentObj) {
+                const pageText = textContentObj.items.map(item => item.str).join(' ');
+                textContent += pageText + '\n';
+                pagesProcessed++;
+                if (pagesProcessed === numPages) {
+                    // Todas as páginas foram processadas
+                    parseAcademicData(textContent);
+                }
+                });
             });
-        });
         }
     }).catch(function(error) {
         console.log('Erro ao processar o PDF: ' + error.message);
@@ -41,14 +40,14 @@ document.getElementById('file-input').addEventListener('change', function(event)
 
 function parseAcademicData(data) {
     const matches = data.match(/202\d\.\d/g);
-
+    console.log(matches)
     if (matches) {
         // If you want to extract text between first and last occurrence
         const firstIndex = data.indexOf(matches[0]);
-        const lastIndex = data.lastIndexOf(matches[matches.length - 1]) + 6; // +6 to include "202X.X"
+        const lastIndex = data.lastIndexOf(matches[matches.length]) + 6; // +6 to include "202X.X"
 
         const extractedData = data.substring(firstIndex, lastIndex);
-        data = extractedData.split(/(202\d\.\d)/gi).filter(item => item.trim() !== '').reduce((acc, item, index, arr) => {
+        data = data.split(/(202\d\.\d)/gi).filter(item => item.trim() !== '').reduce((acc, item, index, arr) => {
             if (item.match(/202\d\.\d/gi) && index + 1 < arr.length) {
                 acc.push(item + ' ' + arr[index + 1]);
                 return acc;
@@ -65,7 +64,6 @@ function parseAcademicData(data) {
 
     // Extract only the academic records (components curriculares)
     const academicRecords = data.filter(item => {
-        console.log(item);
         const trimmed = item.trim();
         // Only keep items that start with year pattern and contain course codes
         return /^\d{4}\.\d/.test(trimmed) && /QXD\d+|EXT\d+|SIQXD\d+/.test(trimmed);
@@ -73,8 +71,6 @@ function parseAcademicData(data) {
 
     const parsedRecords = academicRecords.map(record => {
         const trimmed = record.trim().replace(/[&§*#@]/g, '');
-
-        console.log(trimmed);
 
         // Extract semester (year.period)
         const semestreMatch = trimmed.match(/^\d{4}\.\d/);
@@ -97,7 +93,6 @@ function parseAcademicData(data) {
         const cleanedForGrade = trimmed.replace(/\s+e\s+/g, ' ');
         const notaMatch = cleanedForGrade.match(/(\d+\.?\d+)\s+\d+\.?\d*\s+Docente\(s\)/);
         const nota = notaMatch ? parseFloat(notaMatch[1]) : -1;
-        console.log(notaMatch)
         
         return {
             semestre,
@@ -134,7 +129,6 @@ function parseAcademicData(data) {
             }))
         }));
     
-    console.log(semestersNew);
     const result = {
         semestersNew,
         version: "1.0"
