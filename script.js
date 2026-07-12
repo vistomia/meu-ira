@@ -237,22 +237,24 @@ function calculateIRAGeral() {
         document.getElementById('ira-geral-value').textContent = iraGeral.toFixed(3);
 }
 
-function calculatePercentil(ira, avg, sd) {
-    if (sd === 0) return 0;
+function calculatePercentil(ira, mean, standardDeviation) {
+    // Abramowitz and Stegun Approximation
 
-    const z = (ira - avg) / sd;
+    if (standardDeviation === 0) return 0;
 
-    if (z === 0) return 0.5;
+    const zScore = (ira - mean) / standardDeviation;
 
-    const t = 1 / (1 + 0.2316419 * Math.abs(z));
-    const d = 0.3989423 * Math.exp(-z * z / 2);
-    let prob = d * t * (0.3193815 + t * (-0.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274))));
+    if (zScore === 0) return 0.5;
 
-    if (z > 0) {
-        prob = 1 - prob;
+    const t = 1 / (1 + 0.2316419 * Math.abs(zScore));
+    const d = 0.3989423 * Math.exp(-zScore * zScore / 2);
+    let cumulativeProbability = d * t * (0.3193815 + t * (-0.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274))));
+
+    if (zScore > 0) {
+        cumulativeProbability = 1 - cumulativeProbability;
     }
 
-    return prob;
+    return cumulativeProbability;
 }
 
 // --- MODIFIED ---
