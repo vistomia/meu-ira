@@ -237,6 +237,24 @@ function calculateIRAGeral() {
         document.getElementById('ira-geral-value').textContent = iraGeral.toFixed(3);
 }
 
+function calculatePercentil(ira, avg, sd) {
+    if (sd === 0) return 0;
+
+    const z = (ira - avg) / sd;
+
+    if (z === 0) return 0.5;
+
+    const t = 1 / (1 + 0.2316419 * Math.abs(z));
+    const d = 0.3989423 * Math.exp(-z * z / 2);
+    let prob = d * t * (0.3193815 + t * (-0.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274))));
+
+    if (z > 0) {
+        prob = 1 - prob;
+    }
+
+    return prob;
+}
+
 // --- MODIFIED ---
 function renderSemesters() {
     const container = document.getElementById('semesters-container');
@@ -486,9 +504,16 @@ function renderAll() {
     courseStats.desvio = parseFloat(document.getElementById('curso-desvio').value) || null;
     courseStats.media = parseFloat(document.getElementById('curso-media').value) || null;
     // Update IRA Geral if course stats are available
-    if (courseStats.media !== null && courseStats.desvio !== null && totalIRA > 0) {
+    const percentilMessage = document.getElementById('percentil-value');
+    if (courseStats.media !== null && courseStats.desvio > 0 && totalIRA > 0) {
         const iraGeral = 6 + 2 * ((totalIRA - courseStats.media) / courseStats.desvio);
         document.getElementById('ira-geral-value').textContent = iraGeral.toFixed(3);
+        const percentil = calculatePercentil(totalIRA, courseStats.media, courseStats.desvio);
+        const topPercent = (1 - percentil) * 100;
+        percentilMessage.textContent = `Você está entre o top ${topPercent.toFixed(2)}% do seu curso.`;
+    } else {
+        document.getElementById('ira-geral-value').textContent = '0.000';
+        percentilMessage.textContent = '';
     }
     
     // Save to localStorage
